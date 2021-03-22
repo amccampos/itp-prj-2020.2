@@ -182,5 +182,37 @@ Assim que um bot enviar o comando para descartar (`DISCARD`), seu turno termina 
 
 A partida terminará normalmente quando um dos jogadores descartarem todas as suas cartas. Os pontos serão então contabilizados de acordo com [seus valores](#pontuação) e o vencedor apresentado. Em caso de erro de mensagens, como descrito acima, o jogo também terminará e o bot autor do erro perderá o jogo independentemente da quantidade de pontos.
 
-## Debugar
+# Debugar
 
+Como o programa de seu bot será lançando por outro programa (`buraco`), você **não** vai ter acesso direto a algumas ferramentas de debugagem presentes nas IDEs. Caso você queira/precise encontrar um erro no seu bot ou entender o que está acontecendo, algumas possibilidades foram adicionadas ao jogo.
+
+### Ver a troca de mensagens
+
+Para ver ou confirmar o que está sendo enviado do jogo para os bots e o que o jogo está recebendo dos bots, basta você lançar o programa com o parâmetro `-d` na linha de comando. Por exemplo:
+```sh
+$ node buraco -d bot
+```
+
+Com isso, toda mensagem enviada ou recebida de bots (não do usuário) será impresso no terminal.
+
+
+### Imprimir uma mensagem qualquer
+
+Caso você queira imprimir um valor ou uma mensagem para debugar o que está ocorrendo em determinado trecho do seu código, você deve enviar os dados para a saída de erro-padrão. A escolha da saída de erro é devido ao canal de saída padrão já estar sendo utilizado para comunicação com o jogo propriamente dito. Assim, se quiser realizar um *log-based debugging*, é possível usar o `fprintf()`, como o exemplo abaixo:
+```c
+int v = 5;
+fprintf(stderr, "O valor que quero consultar é: %i\n", v);
+```
+
+A string `O valor que quero consultar é: 5` será então impressa no terminal.
+
+### Definir um estado inicial do jogo
+
+Muitas vezes, você terá que testar sua estratégia em uma determinada situação. Porém, como o buraco é um jogo de azar, é difícil replicar uma situação específica. Nesses casos, você pode definir um estado inicial das mãos dos jogadores, da carta que se encontra no lixo (só a carta do topo) e de quem irá jogar em seguida. Assim, você poderá colocar a situação desejada para verificar se sua estratégia funciona.
+
+Para definir esse estado inicial, basta lançar o programa com o parâmetro `-i` seguido do nome de um arquivo. Este arquivo deverá conter os dados do estado no seguinte formato: para 2 jogadores, haverá inicialmente linhas com as sequências de cartas dos jogadores (envolvidas por `[ ]`), depois a carta do lixo e, por fim, um número indicando o índice do jogador que irá começar.
+
+O arquivo `game1.in` que se encontra na pasta `test_files` exemplifica o formato do arquivo. Se você quiser um estado diferente, pode renomear ou fazer uma cópia deste arquivo e alterar os dados que lá se encontram. O nome pode ser qualquer um. Por exemplo, se você criar o arquivo `test_files/caso_1.txt`, você poderá testá-lo com a linha de comando:
+```sh
+node buraco -i test_files/caso_1.txt bot
+```
