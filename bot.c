@@ -42,6 +42,7 @@ int main() {
   while(1) {
     do {                  // lê e descarta os dados até chegar sua vez
       readline(line);     // sai do laço quando for enviado seu id
+      fprintf(stderr, "%s\n", line);  // para debugar
     } while (strcmp(line, myId)); // ou seja, quando for a sua vez!
 
     printf("GET_STOCK\n");  // envia a ação para puxar uma carta

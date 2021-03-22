@@ -1,7 +1,7 @@
 # Projeto da disciplina de ITP - 2020.2
 
 O projeto da disciplina de ITP deste semestre consiste em você desenvolver uma bot para jogar um jogo clássico de cartas: **Buraco**.
-Para quem nunca jogou, é possívele experimentar o jogo em sites online, como https://buracoon.com.br/game ou jogar contra o bot exemplo do projeto (apresentado mais pra frente).
+Para quem nunca jogou, é possível experimentar o jogo em sites online, como https://buracoon.com.br/game ou jogar contra o bot exemplo do projeto (apresentado mais pra frente).
 
 - [Regras adotadas](#regras-adotadas)
 - [Funcionamento da partida](#funcionamento-da-partida)
@@ -118,7 +118,9 @@ bot1
 ```
 Nesse exemplo, o `bot1` recebeu na 1ª linha a identificação dos bots participantes da partida (`bot1 bot2`), seguido de uma linha com seu identificador (`bot1`), seguido das 11 cartas de sua mão (`2♥ 8♥ 10♥ Q♦ Q♦ 5♣ 6♠ 7♠ 10♠ K♠ A♠`), seguido da carta que inicia o lixo (`4♣`). Seu adversário (`bot2`) irá receber dados diferentes na 2ª e na 3ª linhas.
 
-O formato das cartas sempre começara com o valor da carta (`A`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q` ou `K`), seguido do seu naipe (`♥`, `♦`, `♣` ou `♠`).
+O formato das cartas sempre começará com o valor da carta (`A`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q` ou `K`), seguido do seu naipe (`♥`, `♦`, `♣` ou `♠`).
+
+Vale salientar que os caracteres dos naipes **não  são caracteres ASCII**. São caracteres [Unicode](https://pt.wikipedia.org/wiki/Unicode), em específico o [UTF-8](https://pt.wikipedia.org/wiki/UTF-8). O padrão UTF-8 permite caracteres especiais da nossa língua, como `ç`, `ã`, `é` e outros que não estão presentes no formato ASCII. Porém, eles podem ser formado por mais de um byte. Assim, não leiam o `♥` como caractere (`%c`), mas como string(`%s`).
 
 ## A cada turno
 
@@ -128,13 +130,13 @@ A primeira ação deve obrigatoriamente puxar uma carta, que pode ser do deque d
 
 Em seguida, o bot poderá baixar novos jogos, incluir cartas em jogos existentes ou descartar uma carta no lixo. No momento que descartar, termina sua vez e o próximo bot deve realizar suas ações.
 
-Para realizar uma dessas ações o bot deverá enviar para a saída-padrão um dos seguintes comandos:
+Para realizar uma dessas ações o bot deverá enviar para a saída-padrão um dos seguintes comandos (strings):
 
 - `GET_STOCK`:
   Puxa uma carta do deque de compra. Depois do comando, o bot deve ler da entrada-padrão a carta que puxou.
   Por exemplo:
-  * envia para saída-padrão: `GET_STOCK`
-  * lê da entrada-padrão: `Q♣`
+  * envia: `GET_STOCK` (ex: `printf("GET_STOCK\n");`)
+  * lê: `Q♣` (ex: `scanf("%s", &card);`)
 
 - `GET_DISCARD [ c1 c2 ... ]`:
   Pega toda a pilha de descarte (lixo).
@@ -174,7 +176,7 @@ Assim que um bot enviar o comando para descartar (`DISCARD`), seu turno termina 
 
 **ATENÇÃO**: O bot será automaticamente eliminado e a vitória é dada para seu adversário em qualquer um dos seguintes casos:
 * Caso algum comando seja enviado fora de ordem (por exemplo, caso a primeira ação de um bot não seja `GET_STOCK` ou `GET_DISCARD`);
-* Caso o formato do comando não siga o padrão (por exemplo, `MELD_JOIN` sem parãmetro algum);
+* Caso o formato do comando não siga o padrão (por exemplo, `MELD_JOIN` sem parâmetro algum);
 * Caso a jogada seja inválida (por exemplo, `MELD_NEW [ 4♦ 7♣ 9♣ ]`, que não forma um jogo válido);
 * Caso a carta utilizada não esteja na mão do jogador (por exemplo, `DISCARD 4♦` e o jogador não possui `4♦` na mão.
 
