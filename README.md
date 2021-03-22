@@ -78,7 +78,13 @@ No computador, cada bot será um processo diferente rodando de foma concorrente.
 
 Um códido que serve de exemplo para dar início ao desenvolvimento de um bot encontra-se no arquivo [bot.c](./bot.c). Nesse código, o bot no seu turno irá puxar uma carta da pilha de compra e depois descartar a carta puxada. Cabe a você melhorar sua estragégia de jogo.
 
-Para testá-lo, você deve compilá-lo gerando um executável e, em seguida, executar o programa juiz (`./buraco`) passando o executável gerado como parâmetro. O programa `buraco` é um script desenvolvido em Javascript e, portanto, deve ser chamado usando o `nodeJS`. As linhas a seguir dão o pontapé inicial.
+Para testá-lo, você deve compilá-lo gerando um executável e, em seguida, executar o programa juiz (`./buraco`) passando o executável gerado como parâmetro. O programa `buraco` é um script desenvolvido em Javascript e, portanto, deve ser chamado usando o nodeJs.
+
+Caso você não tenha o nodeJs instalado, pode fazê-lo a partir do endereço https://nodejs.org/pt-br/. O programa funciona com a versão 10 do Node ou mais recentes.
+
+Se não desejar ou não puder instalar o nodeJs, é possível acessar estes mesmo arquivos no repl.it no endereço: https://replit.com/@Andre_MauricioM/itp-prj-20202. No repl.it, o botão "Play" irá compilar o arquivo `bot.c` e executará o script.
+
+Porém, se estiver trabalhando localmente, as linhas a seguir fará esses passos.
 
 ```sh
 $ gcc bot.c -o bot
