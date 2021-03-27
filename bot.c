@@ -10,7 +10,7 @@
 #include <string.h>
 
 /** Tamanho máximo de uma linha da entrada-padrão */
-#define MAX_LINE 100
+#define MAX_LINE 200
 
 /** Tamanho máximo do identificador do bot */
 #define ID_SIZE 10
@@ -35,20 +35,22 @@ int main() {
   setbuf(stdout, NULL);  // assim, nada é "guardado temporariamente"
   setbuf(stderr, NULL);
 
+                         // DADOS DO INÍCIO DA PARTIDA
   readline(line);        // lê os identificadores dos jogadores
   readline(line);        // lê o identificador do bot (seu id)
   strncpy(myId, line, ID_SIZE); // guarda para uso futuro
+  readline(line);        // lê as cartas que o bot tem na mão
+  readline(line);        // lê a carta inicial da pilha de descarte.
 
-  while(1) {
+  while(1) {              // DADOS DURANTE A PARTIDA
     do {                  // lê e descarta os dados até chegar sua vez
       readline(line);     // sai do laço quando for enviado seu id
-      fprintf(stderr, "%s\n", line);  // para debugar
-    } while (strcmp(line, myId)); // ou seja, quando for a sua vez!
+      fprintf(stderr, "%s\n", line);  // exemplo de saída para debugar
+    } while (strcmp(line, myId)); // sai do laço quando for a sua vez!
 
-    printf("GET_STOCK\n");  // envia a ação para puxar uma carta
-    readline(line);         // recebe a carta que puxou
-
-    printf("DISCARD %s\n", line);  // envia a ação para descartar a carta que puxou
+    printf("GET_STOCK\n");         // envia a ação para puxar uma carta
+    readline(line);                // recebe a carta que puxou
+    printf("DISCARD %s\n", line);  // descarta a carta que puxou
   }
 
   return 0;
