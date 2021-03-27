@@ -107,7 +107,7 @@ Para incrementar o bot de base, que apenas puxa uma carta e a solta, você pode 
 
 1. **Puxar uma carta**: Verifique se a carta que seu adversário descartou forma jogo com as cartas que tem na mão. Se formar, pegue o lixo formando o jogo. Se não, puxe uma do deque de compras.
 2. **Baixar um jogo**: Baixe um jogo apenas quando pegar o lixo (é obrigatório baixar o jogo formado).
-3. **Escolha da carte de descarte**: Busque a carta da mão que esteja o mais longe de um possível jogo. Por exemplo, Se as cartas da mão forem [ 4♥ 5♥ J♥ 3♣ 5♣ 8♣ ], J♥ está mais longe de 5♥ (carta mais próxima dele) do que qualquer outra combinação de cartas. Assim, J♥ seria uma carta potencial para ser descartada.
+3. **Escolha da carte de descarte**: Busque a carta da mão que esteja o mais longe de um possível jogo. Por exemplo, Se as cartas da mão forem `[ 4♥ 5♥ J♥ 3♣ 5♣ 8♣ ]`, `J♥` está mais longe de `5♥` (carta mais próxima dele) do que qualquer outra combinação de cartas. Assim, `J♥` seria uma carta potencial para ser descartada.
 
 Vale salientar que, para realizar ações como *verificar se forma jogo* ou *buscar carta mais longe*, fica muito mais simples se as cartas estiverem ordenadas. Então, uma das principais rotinas do seu bot será *ordene um conjunto de cartas*.
 
