@@ -76,6 +76,8 @@ No computador, cada bot será um processo diferente rodando de foma concorrente.
 
 # Pontapé inicial
 
+### Código de base
+
 Um códido que serve de exemplo para dar início ao desenvolvimento de um bot encontra-se no arquivo [bot.c](./bot.c). Nesse código, o bot no seu turno irá puxar uma carta da pilha de compra e depois descartar a carta puxada. Cabe a você melhorar sua estragégia de jogo.
 
 Para testá-lo, você deve compilá-lo gerando um executável e, em seguida, executar o programa juiz (`./buraco`) passando o executável gerado como parâmetro. O programa `buraco` é um script desenvolvido em Javascript e, portanto, deve ser chamado usando o nodeJs.
@@ -98,6 +100,18 @@ Caso queira competir com outro bot (ou mesmo fazer com que seu bot compita contr
 ```sh
 $ node juiz.js bot1 bot2
 ```
+
+### Estratégia de um bot simmples
+
+Para incrementar o bot de base, que apenas puxa uma carta e a solta, você pode quebrar o comportamento do seu bot em 3 possíveis estados e tentar implementar a seguinte estratégia:
+
+1. **Puxar uma carta**: Verifique se a carta que seu adversário descartou forma jogo com as cartas que tem na mão. Se formar, pegue o lixo formando o jogo. Se não, puxe uma do deque de compras.
+2. **Baixar um jogo**: Baixe um jogo apenas quando pegar o lixo (é obrigatório baixar o jogo formado).
+3. **Escolha da carte de descarte**: Busque a carta da mão que esteja o mais longe de um possível jogo. Por exemplo, Se as cartas da mão forem [ 4♥ 5♥ J♥ 3♣ 5♣ 8♣ ], J♥ está mais longe de 5♥ (carta mais próxima dele) do que qualquer outra combinação de cartas. Assim, J♥ seria uma carta potencial para ser descartada.
+
+Vale salientar que, para realizar ações como *verificar se forma jogo* ou *buscar carta mais longe*, fica muito mais simples se as cartas estiverem ordenadas. Então, uma das principais rotinas do seu bot será *ordene um conjunto de cartas*.
+
+Para ir além do bot de base, será importante guardar informações do andamento da partida. Memorizar as cartas que estão no lixo, bem como os jogos que já foram baixados por seu bot e pelo seu adversário, é essencial. Mas memorizar não é problema para um bot. Basta guardar essas informações em arrays (lixo) e arrays de arrays (jogos do bot e jogos do adversário).
 
 # Comunicação
 
@@ -166,7 +180,6 @@ Para realizar uma dessas ações o bot deverá enviar para a saída-padrão um d
   Depois do comando, não há dados para ler da entrada-padrão.
   Por exemplo:
   * envia para saída-padrão: `DISCARD 3♠`
-
 
 Todas os comandos executados por um bot são repassados para os demais bots, permitindo assim que todos os jogadores vejam o que está ocorrendo na partida. Porém, as respostas dos comandos são enviadas apenas para o bot autor do comando. Por exemplo, todos receberão uma mensagem de `GET_STOCK` quando esta for realizada por um bot, mas apenas ele receberá a carta que foi puxada.
 
