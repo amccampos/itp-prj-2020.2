@@ -106,15 +106,15 @@ $ node juiz.js bot1 bot2
 Para incrementar o bot de base, que apenas puxa uma carta e a solta, você pode quebrar o comportamento do seu bot em 2 possíveis estados e tentar implementar a seguinte estratégia:
 
 1. **Puxar uma carta**: Verifique se a carta que seu adversário descartou forma jogo com as cartas que tem na mão. Se formar, pegue o lixo formando o jogo. Se não, puxe uma do deque de compras.
-2. **Escolha da carte de descarte**: Busque a carta da mão que esteja o mais longe de um possível jogo. Por exemplo, Se as cartas da mão forem `[ 4♥ 5♥ J♥ 3♣ 5♣ 8♣ ]`, `J♥` está mais longe de `5♥` (carta mais próxima dele) do que qualquer outra combinação de cartas. Assim, `J♥` seria uma carta potencial para ser descartada.
+2. **Descartar uma carta**: Busque a carta da mão que esteja o mais longe de um possível jogo. Por exemplo, Se as cartas da mão forem `[ 4♥ 5♥ J♥ 3♣ 5♣ 8♣ ]`, `J♥` está mais longe de `5♥` (carta mais próxima dele) do que qualquer outra combinação de cartas. Assim, `J♥` seria uma carta potencial para ser descartada.
 
 Vale salientar que, para realizar ações como *verificar se forma jogo* ou *buscar carta mais longe*, fica muito mais simples se as cartas estiverem ordenadas. Então, uma das principais rotinas do seu bot será *ordene um conjunto de cartas*.
 
 Para ir além da estratégia descrita acima, será importante guardar informações do andamento da partida. Memorizar as cartas que estão no lixo, bem como os jogos que já foram baixados por seu bot e pelo seu adversário, é essencial. Mas memorizar não é problema para um bot. Basta guardar essas informações em arrays (lixo) e arrays de arrays (jogos do bot e jogos do adversário).
 
-Quando seu bot estiver armazenando as cartas, o próximo passo será incrementar seus jogos já baixados. Assim, teria um estado entre *puxar* e *descartar* uma carta, que seria:
+Quando seu bot estiver armazenando as cartas, o próximo passo será incrementar seus jogos já baixados. Assim, teria um estado entre *1. Puxar uma carta* e *2. Descartar uma carta* uma carta, que seria:
 
-1. 1½ **Anexar cartas a um jogo existente**: Verifique se cartas da mão encaixa em algum jogo já baixado. Enquanto existir adicione as cartas no jogo.
+1. ½. **Anexar cartas a um jogo existente**: Verifique se cartas da mão encaixa em algum jogo já baixado. Enquanto existir adicione as cartas no jogo.
 
 Com essas estratégias simples, seu bot já será capaz de ganhar de lavada do bot de base. Mas será que ganharia do bot de seu colega?! 😉
 
@@ -140,13 +140,13 @@ Nesse exemplo, o `bot1` recebeu na 1ª linha a identificação dos bots particip
 
 O formato das cartas sempre começará com o valor da carta (`A`, `2`, `3`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `J`, `Q` ou `K`), seguido do seu naipe (`♥`, `♦`, `♣` ou `♠`).
 
-Vale salientar que os caracteres dos naipes **não são caracteres ASCII**. São caracteres [Unicode](https://pt.wikipedia.org/wiki/Unicode), em específico o [UTF-8](https://pt.wikipedia.org/wiki/UTF-8). O padrão UTF-8 permite caracteres especiais da nossa língua, como `ç`, `ã`, `é` e outros que não estão presentes no tabela ASCII. O padrão UTF-8 estende a tabela ASCII permitindo que um caractere seja formado por mais de um byte. Assim, não leiam o `♥` como se fosse um único byte (usando `%c`), mas como string(`%s`). Além disso, quando forem comparar os naipes, usem `strcmp()` (ex: `if (strcmp(x, "♥") == 0)`).
+Vale salientar que os caracteres dos naipes **não são caracteres ASCII**. São caracteres [Unicode](https://pt.wikipedia.org/wiki/Unicode), em específico o [UTF-8](https://pt.wikipedia.org/wiki/UTF-8). O padrão UTF-8 permite caracteres especiais da nossa língua, como `ç`, `ã`, `é` e outros que não estão presentes na tabela ASCII. O padrão UTF-8 estende a tabela ASCII permitindo que um caractere seja formado por mais de um byte. Assim, não leiam o `♥` como se fosse um único byte (usando `%c`), mas como string(`%s`). Além disso, quando forem comparar os naipes, usem `strcmp()` (ex: `if (strcmp(x, "♥") == 0)`).
 
 Porém, para quem quiser entrar nos detalhes de cada byte dos naipes, eles são formados por 3, com os seguintes valores em hexa e decimal:
-* `♦`: e2 (226) - 99 (153) - a6 (166)
-* `♠`: e2 (226) - 99 (153) - a0 (160)
-* `♥`: e2 (226) - 99 (153) - a5 (165)
-* `♣`: e2 (226) - 99 (153) - a3 (163)
+* `♦`: E2 (226) - 99 (153) - A6 (166)
+* `♠`: E2 (226) - 99 (153) - A0 (160)
+* `♥`: E2 (226) - 99 (153) - A5 (165)
+* `♣`: E2 (226) - 99 (153) - A3 (163)
 
 ## A cada turno
 
@@ -199,14 +199,15 @@ Todas os comandos executados por um bot são repassados para os demais bots, per
 
 Assim que um bot enviar o comando para descartar (`DISCARD`), seu turno termina e passa a ser a vez do outro bot jogar.
 
-Seu bot deve seguir estritamente a sequência de envio e recebimento dos comandos. Se, por exemplo, o programa juiz estiver esperando um comando do seu bot e este estiver esperando dados do juiz, então seu bot não seguiu a sequência correta e o sistema entrou no que chamamos de **[deadlock](https://pt.wikipedia.org/wiki/Deadlock)**. Nesse caso, caso seu bot não responda em 3 segundos, o juíz irá matar o processo do seu bot e terminar a partida.
+Seu bot deve seguir estritamente a sequência de envio e recebimento dos comandos. Se, por exemplo, o programa juiz estiver esperando um comando do seu bot e este estiver esperando dados do juiz, então seu bot não seguiu a sequência correta e o sistema entrou no que chamamos de **[deadlock](https://pt.wikipedia.org/wiki/Deadlock)**. Caso seu bot não responda em 3 segundos, o juíz irá matar o processo do seu bot e terminar a partida.
 
 ## Término da partida
 
 A partida terminará normalmente quando um dos jogadores descartarem todas as suas cartas. Os pontos serão então contabilizados de acordo com [seus valores](#pontuação) e o vencedor apresentado.
 
-Porém, a partida também terminará em qualquer um dos casos abaixo. O bot autor do erro será automaticamente eliminado e a vitória é dada para seu adversário independentemente da quantidade de pontos que cada um possui.
+Porém, a partida também terminará quando houver um erro de comunicação. O bot autor do erro será automaticamente eliminado e a vitória é dada para seu adversário independentemente da quantidade de pontos que cada um possui.
 
+Assim, a partida terminará em qualquer um dos seguintes casos:
 * Caso a mensagem enviada não seja nenhum dos comandos predefinidos (por exemplo, o bot enviar a mensagem `Pegue do lixo`);
 * Caso algum comando seja enviado fora de ordem (por exemplo, caso a primeira ação de um bot NÃO seja `GET_STOCK` ou `GET_DISCARD`);
 * Caso o formato do comando não siga o padrão (por exemplo, `MELD_JOIN` sem parâmetro algum ou `MELD_JOIN e aí cara?!`);
