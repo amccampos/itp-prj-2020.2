@@ -203,7 +203,7 @@ Seu bot deve seguir estritamente a sequência de envio e recebimento dos comando
 
 ## Término da partida
 
-A partida terminará normalmente quando um dos jogadores descartarem todas as suas cartas. Os pontos serão então contabilizados de acordo com [seus valores](#pontuação) e o vencedor apresentado.
+A partida terminará normalmente quando 1) um dos jogadores descartarem todas as suas cartas, ou 2) acabarem todas as cartas do deque de compra. Os pontos serão então contabilizados de acordo com [seus valores](#pontuação) e o vencedor apresentado.
 
 Porém, a partida também terminará quando houver um erro de comunicação. O bot autor do erro será automaticamente eliminado e a vitória é dada para seu adversário independentemente da quantidade de pontos que cada um possui.
 
