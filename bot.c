@@ -13,7 +13,7 @@
 #define MAX_LINE 200
 
 /** Tamanho máximo do identificador do bot */
-#define ID_SIZE 10
+#define ID_SIZE 50
 
 /**
  * Lê uma linha da entrada padrão e remove o '\n' se necessário.
