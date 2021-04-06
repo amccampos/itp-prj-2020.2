@@ -98,7 +98,7 @@ No exemplo acima, como apenas um executável foi passado como parâmetro (`bot`)
 Caso queira competir com outro bot (ou mesmo fazer com que seu bot compita contra ele mesmo), é necessário passar o nome dos dois executáveis. Nesse caso, não haverá interação com o usuário.
 
 ```sh
-$ node juiz.js bot1 bot2
+$ node buraco.js bot1 bot2
 ```
 
 ### Estratégia de um bot simples
@@ -186,7 +186,7 @@ Para realizar uma dessas ações o bot deverá enviar para a saída-padrão um d
   `[ c1 ... ]` são as cartas da mão a serem anexadas no jogo. Deve-se especificar pelo menos uma carta.
   Depois do comando, não há dados para ler da entrada-padrão.
   Por exemplo:
-  * envia para saída-padrão: `MELD_NEW 0 [ 8♠ ]`
+  * envia para saída-padrão: `MELD_JOIN 0 [ 8♠ ]`
 
 - `DISCARD c`:
   Descarta uma carta na pilha de descarte (lixo).
