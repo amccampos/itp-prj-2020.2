@@ -165,9 +165,8 @@ Para realizar uma dessas ações o bot deverá enviar para a saída-padrão um d
   * lê: `Q♣` (ex: `scanf("%s", &card);`)
 
 - `GET_DISCARD [ c1 c2 ... ]`:
-  Pega toda a pilha de descarte (lixo).
-  Para isso, é necessário fazer um jogo com a carta do topo da pilha.
-  `[ c1 c2 ... ]` são as cartas da mão a serem usadas no jogo. Pelo menos duas cartas da mão devem ser especificadas uma vez que um jogo válido tem no mínimo três cartas.
+  ega toda a pilha de descarte (lixo) formando um jogo com a carta do topo. Os parâmetros do comando,
+  [ c1 c2 ... ], são as cartas da mão a serem usadas no jogo. Pelo menos duas cartas da mão devem ser especificadas uma vez que um jogo válido tem no mínimo três cartas.
   Depois do comando, o bot deve ler uma linha com as cartas que se encontravam no lixo e que serão incorparadas à sua mão.
   Por exemplo (considerando que o topo do lixo é `5♠`):
   * envia para saída-padrão: `GET_DISCARD [ 6♠ 7♠ ]`
