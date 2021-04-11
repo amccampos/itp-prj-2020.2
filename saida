@@ -1,18 +1,18 @@
 Indentificadores de todos bots: p1.meu_bot p2.bot
 Identificador do meu bot: p1.meu_bot myID: p1.meu_bot
-Cartas iniciais: [ 4♥ Q♣ 8♣ 2♠ 4♥ 10♥ 9♣ 4♦ J♦ Q♦ 6♠ ]
-Carta[0]: 4♥
-Carta[1]: 12♣
-Carta[2]: 8♣
-Carta[3]: 2♠
-Carta[4]: 4♥
-Carta[5]: 10♥
-Carta[6]: 9♣
-Carta[7]: 4♦
-Carta[8]: 11♦
-Carta[9]: 12♦
+Cartas iniciais: [ 5♣ 5♠ 5♦ A♣ 8♠ 2♣ K♥ 4♠ 4♠ 9♦ 6♠ ]
+Carta[0]: 5♣
+Carta[1]: 5♠
+Carta[2]: 5♦
+Carta[3]: 1♣
+Carta[4]: 8♠
+Carta[5]: 2♣
+Carta[6]: 13♥
+Carta[7]: 4♠
+Carta[8]: 4♠
+Carta[9]: 9♦
 Carta[10]: 6♠
-022080824109411126Mao copas: [ 4♥ 4♥ 10♥ ]
-Mao ouro: [ 4♦ 11♦ 12♦ ]
-Mao espadas: [ 2♠ 6♠ ]
-Mao Paus: [ 12♣ 8♣ 9♣ ]
+Mao copas: [ 13♥ ]
+Mao ouro: [ 5♦ 9♦ ]
+Mao espadas: [ 4♠ 4♠ 5♠ 6♠ 8♠ ]
+Mao Paus: [ 1♣ 2♣ 5♣ ]

@@ -1,10 +1,7 @@
-/********************************************************************
-  Bot-exemplo
-  
-  Após receber as informações iniciais do jogo, a cada rodada, esse
-  bot irá apenas puxar uma carta e, em seguida, descartá-la.
-  Cabe a você agora aprimorar sua estratégia!!!
- ********************************************************************/
+//gcc meu_bot.c -o meu_bot -g -w
+//node buraco.js meu_bot bot
+//node buraco -i test_files/ex1.txt bot
+
 
 #include <stdio.h>
 #include <string.h>
@@ -29,7 +26,25 @@ void readline(char *line) {
   }
 }
 
+void bubblesortNaipes(Carta *mao, int index)
+{
+  Carta aux;
 
+  for (int i = 0; i < index - 1; i++)
+    {
+        for (int k = i + 1; k < index; k++)
+        {
+            //Ordenação por pontos
+            if (mao[i].numero > mao[k].numero)
+            {
+              aux = mao[i];
+              mao[i] = mao[k];
+              mao[k] = aux;
+                
+            }
+        }
+    }
+}
 
 int main() {
   char line[MAX_LINE];   // dados temporários
@@ -37,17 +52,19 @@ int main() {
 
   FILE* saida = fopen("saida", "w");
 
-  // stdin, stdout e stderr não terão buffers, assim, nada é "guardado temporariamente"
-  setbuf(stdin, NULL);   
-  setbuf(stdout, NULL); 
-  setbuf(stderr, NULL);
-  setbuf(saida,NULL);
+  //Stdin, stdout e stderr não terão buffers, assim, nada é "guardado temporariamente"
+    setbuf(stdin, NULL);   
+    setbuf(stdout, NULL); 
+    setbuf(stderr, NULL);
+    setbuf(saida,NULL);
+  //
+
 
   int i;
   int indexCopas = 0, indexOuro = 0, indexPaus = 0, indexEspadas = 0;
 
   char valor;
-  char lixo = NULL;
+  char lixoBuffer = NULL;
   char naipeAtual[5];
   char *cartas;
   Carta *mao;
@@ -66,39 +83,40 @@ int main() {
 
   // DADOS DO INÍCIO DA PARTIDA
 
+  //Leituras iniciais: Identificadores de todos bots | Identificador do bot 
+    // lê os identificadores dos jogadores (descartavel)
+    readline(line);    
+    fprintf(saida, "Indentificadores de todos bots: %s\n",  line); 
+    // lê o identificador do bot (seu id)
+    readline(line);        
+    fprintf(saida, "Identificador do meu bot: %s ", line);
+    //Armazena o id do bot que foi lido anteriormente
+    strncpy(myId, line, ID_SIZE);
+    fprintf(saida, "myID: %s\n", myId);
 
-  // lê os identificadores dos jogadores (descartavel)
-  readline(line);    
-  fprintf(saida, "Indentificadores de todos bots: %s\n", line); 
-  // lê o identificador do bot (seu id)
-  readline(line);        
-  fprintf(saida, "Identificador do meu bot: %s ", line);
-  //Armazena o id do bot que foi lido anteriormente
-  strncpy(myId, line, ID_SIZE);
-  fprintf(saida, "myID: %s\n", myId);
-
+  //
 
 
   //Guardar as cartas iniciais aqui
   readline(line); 
-
   fprintf(saida, "Cartas iniciais: %s\n", line);
+
   //Leitura das cartas e armazenamento
   cartas = strtok(line, " ");
-  // fprintf(saida, "Carta atual: %s\n", cartas);
   cartas = strtok(NULL, " ");
-  // fprintf(saida, "Carta atual: %s\n", cartas);
 
-  //Recebndo os números da mão
-  for (i = 0; i < 11; i++){
+
+
+  //Recebendo os números da mão inicial | Separação da mão em naipes
+    for (i = 0; i < 11; i++){
     //Recebe o valor da carta
     sscanf(cartas, "%c", &valor);
 
     //Se o valor for o caractere 1 (ou seja, é o numero 10)
     if (valor == '1')
     {
-      //Recebe o valor (1), um lixo (0), e o naipeAtual
-      sscanf(cartas, "%c %c %s", &valor, &lixo, naipeAtual);
+      //Recebe o valor (1), um lixoBuffer (0), e o naipeAtual
+      sscanf(cartas, "%c %c %s", &valor, &lixoBuffer, naipeAtual);
     }
     else{
        //Recebe somente o valor e o naipeAtual
@@ -164,11 +182,23 @@ int main() {
     fprintf(saida, "Carta[%d]: %d%s\n", i, mao[i].numero, mao[i].naipe);
 
     cartas = strtok(NULL, " ");
-  }
+    }
   
+  //
+  
+  //Libera a mão inicial
   free(mao);
 
-  //Print da mao dividida
+  //Ordenação das mãos iniciais de cada naipe
+    bubblesortNaipes(maoCopas, indexCopas);
+    bubblesortNaipes(maoOuro, indexOuro);
+    bubblesortNaipes(maoEspadas, indexEspadas);
+    bubblesortNaipes(maoPaus, indexPaus);
+  
+  //
+
+
+  //Print da mao dividida em naipes
     //Print Mão Copas
     fprintf(saida, "Mao copas: [ ");
     for (i = 0; i < indexCopas; i++){
@@ -199,11 +229,8 @@ int main() {
   
   //
 
-  //gcc meu_bot.c -o meu_bot -g -w
-  //node buraco.js meu_bot bot
-  //node buraco -i test_files/ex1.txt bot
 
-//Inicializar o lixo e ler a carta lida
+  //Inicializar o lixo e ler a carta lida
   readline(line);        // lê a carta inicial da pilha de descarte.
 
   
