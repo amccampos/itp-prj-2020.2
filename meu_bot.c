@@ -29,6 +29,8 @@ void readline(char *line) {
   }
 }
 
+
+
 int main() {
   char line[MAX_LINE];   // dados temporários
   char myId[ID_SIZE];    // identificador do bot
@@ -156,41 +158,46 @@ int main() {
       maoPaus[indexPaus].numero = mao[i].numero;
       indexPaus++;
     }
+    
 
     //Printa a carta atual
     fprintf(saida, "Carta[%d]: %d%s\n", i, mao[i].numero, mao[i].naipe);
 
     cartas = strtok(NULL, " ");
   }
+  
+  free(mao);
 
-  //print da mao dividida
-  //Print Mão Copas
-  fprintf(saida, "Mao copas: [ ");
-  for (i = 0; i < indexCopas; i++){
-  fprintf(saida, "%d%s ", maoCopas[i].numero, maoCopas[i].naipe);
-  }
-  fprintf(saida, "]\n");
-  //Print Mão Ouro
-  fprintf(saida, "Mao ouro: [ ");
-  for (i = 0; i < indexOuro; i++)
-  {
-  fprintf(saida, "%d%s ", maoOuro[i].numero, maoOuro[i].naipe);
-  }
-  fprintf(saida, "]\n");
-  //Print Mão Espadas
-  fprintf(saida, "Mao espadas: [ ");
-  for(i = 0; i < indexEspadas; i++)
-  {
-  fprintf(saida, "%d%s ", maoEspadas[i].numero, maoEspadas[i].naipe);
-  }
-  fprintf(saida, "]\n");
-  //Print Mão Paus
-  fprintf(saida, "Mao Paus: [ ");
-  for(i = 0; i < indexPaus; i++)
-  {
-  fprintf(saida, "%d%s ", maoPaus[i].numero, maoPaus[i].naipe);
-  }
-  fprintf(saida, "]\n");
+  //Print da mao dividida
+    //Print Mão Copas
+    fprintf(saida, "Mao copas: [ ");
+    for (i = 0; i < indexCopas; i++){
+    fprintf(saida, "%d%s ", maoCopas[i].numero, maoCopas[i].naipe);
+    }
+    fprintf(saida, "]\n");
+    //Print Mão Ouro
+    fprintf(saida, "Mao ouro: [ ");
+    for (i = 0; i < indexOuro; i++)
+    {
+    fprintf(saida, "%d%s ", maoOuro[i].numero, maoOuro[i].naipe);
+    }
+    fprintf(saida, "]\n");
+    //Print Mão Espadas
+    fprintf(saida, "Mao espadas: [ ");
+    for(i = 0; i < indexEspadas; i++)
+    {
+    fprintf(saida, "%d%s ", maoEspadas[i].numero, maoEspadas[i].naipe);
+    }
+    fprintf(saida, "]\n");
+    //Print Mão Paus
+    fprintf(saida, "Mao Paus: [ ");
+    for(i = 0; i < indexPaus; i++)
+    {
+    fprintf(saida, "%d%s ", maoPaus[i].numero, maoPaus[i].naipe);
+    }
+    fprintf(saida, "]\n");
+  
+  //
 
   //gcc meu_bot.c -o meu_bot -g -w
   //node buraco.js meu_bot bot
