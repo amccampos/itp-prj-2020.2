@@ -100,34 +100,37 @@ void valorCarta(char* carta, Carta* mao){
 
 void tratamentoNaipe(Carta* mao, Carta* maoCopas, Carta* maoOuro, Carta* maoEspadas, Carta* maoPaus)
 {
-    if((strcmp(mao->naipe, "♥") == 0))
-    {
-      strcpy(maoCopas[indexCopas].naipe, mao->naipe);
-      maoCopas[indexCopas].numero = mao->numero;
-      indexCopas++;
-      // maoCopas = realloc(maoCopas, sizeof(Carta) * (1 + 1));
-    }
-    if((strcmp(mao->naipe, "♦") == 0))
-    {
-      strcpy(maoOuro[indexOuro].naipe, mao->naipe);
-      maoOuro[indexOuro].numero = mao->numero;
-      indexOuro++;
-      // maoOuro = realloc(maoOuro, sizeof(Carta) * (indexOuro + 1));
-    }
-    if((strcmp(mao->naipe, "♠") == 0))
-    {
-      strcpy(maoEspadas[indexEspadas].naipe, mao->naipe);
-      maoEspadas[indexEspadas].numero = mao->numero;
-      indexEspadas++;
-      // maoEspadas = realloc(maoEspadas, sizeof(Carta) * (indexEspadas + 1));
-    }
-    if((strcmp(mao->naipe, "♣") == 0))
-    {
-      strcpy(maoPaus[indexPaus].naipe, mao->naipe);
-      maoPaus[indexPaus].numero = mao->numero;
-      indexPaus++;
-      // maoPaus = realloc(maoPaus, sizeof(Carta) * (indexPaus + 1));
-    }
+  FILE* tratamento = fopen("tratamento", "w");
+  fprintf(tratamento,"oi");
+
+  if((strcmp(mao->naipe, "♥") == 0))
+  {
+    strcpy(maoCopas[indexCopas].naipe, mao->naipe);
+    maoCopas[indexCopas].numero = mao->numero;
+    indexCopas++;
+    // maoCopas = realloc(maoCopas, sizeof(Carta*) *(indexCopas + 1));
+  }
+  if((strcmp(mao->naipe, "♦") == 0))
+  {
+    strcpy(maoOuro[indexOuro].naipe, mao->naipe);
+    maoOuro[indexOuro].numero = mao->numero;
+    indexOuro++;
+    // maoOuro = realloc(maoOuro, sizeof(Carta) *(indexOuro + 1));
+  }
+  if((strcmp(mao->naipe, "♠") == 0))
+  {
+    strcpy(maoEspadas[indexEspadas].naipe, mao->naipe);
+    maoEspadas[indexEspadas].numero = mao->numero;
+    indexEspadas++;
+    // maoEspadas = realloc(maoEspadas, sizeof(Carta) *(indexEspadas + 1));
+  }
+  if((strcmp(mao->naipe, "♣") == 0))
+  {
+    strcpy(maoPaus[indexPaus].naipe, mao->naipe);
+    maoPaus[indexPaus].numero = mao->numero;
+    indexPaus++;
+    // maoPaus = realloc(maoPaus, sizeof(Carta) *(indexPaus + 1));
+  }
 }
 
 void printMaoNaipes(Carta* mao, Carta* maoCopas, Carta* maoOuro, Carta* maoEspadas, Carta* maoPaus, FILE* saida)
@@ -183,11 +186,14 @@ int main() {
 
 
   int i;
+  int indexLixo = 0;
 
 
   char valor;
   char lixoBuffer;
   char naipeAtual[5];
+  char loop[MAX_LINE];
+  char *descarte;
   char *cartas;
   
 
@@ -201,12 +207,12 @@ int main() {
   Carta *lixo;
 
   mao = malloc(sizeof(Carta) * 11);
-  maoCopas = malloc(sizeof(Carta) * 11);
-  maoOuro = malloc(sizeof(Carta) * 11);
-  maoEspadas = malloc(sizeof(Carta) * 11);
-  maoPaus = malloc(sizeof(Carta) * 11);
+  maoCopas = malloc(sizeof(Carta) * 14);
+  maoOuro = malloc(sizeof(Carta) * 14);
+  maoEspadas = malloc(sizeof(Carta) * 14);
+  maoPaus = malloc(sizeof(Carta) * 14);
 
-  lixo = malloc(sizeof(char) * 2);
+  lixo = malloc(sizeof(Carta) * 2);
 
 
   // DADOS DO INÍCIO DA PARTIDA
@@ -248,7 +254,7 @@ int main() {
 
     cartas = strtok(NULL, " ");
     }
-  
+    fprintf(saida, "\n");
   //
   
 
@@ -280,12 +286,15 @@ int main() {
     fprintf(saida,"lixo: %s\n", line); 
 
     //Definição do lixo
-    valorCarta(line, &lixo[0]);
+    valorCarta(line, &lixo[indexLixo]);
+    
   //
   
 
   //Print carta do lixo
-  fprintf(saida, "Carta do lixo: %d%s\n", lixo[0].numero, lixo[0].naipe);
+  fprintf(saida, "Carta do lixo: %d%s\n", lixo[indexLixo].numero, lixo[indexLixo].naipe);
+
+  indexLixo++;
 
   fprintf(saida, "\n");
   fprintf(saida, "\n");
@@ -298,9 +307,22 @@ int main() {
       readline(line);     
 
       // exemplo de saída para debugar
-      //fprintf(saida, "Loop: %s\n", line);  
+      // fprintf(saida, "Loop: %s", line);  
 
       //Verificar se o adversario deu o comando discard para atualizar o lixo
+      sscanf(line, "%s", loop);
+      // fprintf(saida,"variavel loop: %s\n", loop);
+
+      if(strcmp(loop, "DISCARD") == 0)
+      {
+        descarte = strtok(line, " ");
+        descarte = strtok(NULL, " ");
+        fprintf(saida, "Descarte: %s\n", descarte);
+        valorCarta(descarte, &lixo[indexLixo]);
+        fprintf(saida, "Topo do lixo: %d%s\n", lixo[indexLixo].numero, lixo[indexLixo].naipe);
+        indexLixo++;
+        // lixo = realloc(lixo, sizeof(Carta *) * (indexLixo + 1));
+      }
 
 
       //Verificar se o adversario deu o comando GET_DISCARD, neste caso é necessario zerar o lixo
@@ -309,6 +331,11 @@ int main() {
     } while (strcmp(line, myId)); // sai do laço quando for a sua vez!
 
     //Envia a ação para puxar uma carta
+    for (i = 0; i < indexLixo; i++)
+    {
+      fprintf(saida, "%d%s ", lixo[i].numero, lixo[i].naipe);
+    }
+    fprintf(saida, "\n");
 
     //Tratamento de qual puxe quer fazer
     char* acaoPuxar = puxar();
@@ -320,7 +347,7 @@ int main() {
     readline(line);
     fprintf(saida, "Carta do deque de compra: %s\n", line);
 
-    //Recebimento da carta para a mãoo geral
+    //Recebimento da carta para a mão geral
     valorCarta(line, &mao[0]);
     fprintf(saida, "Carta recebida: %d%s\n", mao[0].numero, mao[0].naipe); 
 
@@ -342,6 +369,8 @@ int main() {
 
     //Descarta a carta que puxou
     printf("DISCARD %s\n", line);  
+
+
   }
 
   return 0;
